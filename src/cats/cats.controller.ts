@@ -1,4 +1,12 @@
-import { Body, Controller, Post, UseFilters } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  UseFilters,
+  UseGuards,
+} from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { HttpExceptionFilter } from '../common/http-exception.filter';
 import { CatsRequestDto } from './dto/cats.request.dto';
@@ -6,6 +14,8 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CatsResponseDto } from './dto/cats.response.dto';
 import { AuthService } from '../auth/auth.service';
 import { LoginRequestDto } from '../auth/dto/login.request.dto';
+import { JwtGuard } from '../auth/jwt/jwt.guard';
+import { CurrentUser } from '../common/decorators/user.decorator';
 
 @Controller('cats')
 @UseFilters(HttpExceptionFilter)
@@ -18,6 +28,13 @@ export class CatsController {
     private readonly catsService: CatsService,
     private readonly authService: AuthService,
   ) {}
+
+  @ApiOperation({ summary: '현재 내 정보' })
+  @UseGuards(JwtGuard)
+  @Get()
+  getCurrentCat(@CurrentUser() cat) {
+    return cat.readOnlyData;
+  }
 
   @ApiOperation({ summary: '회원가입' })
   @ApiResponse({
