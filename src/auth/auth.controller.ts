@@ -3,15 +3,11 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CatsResponseDto } from '../cats/dto/cats.response.dto';
 import { CatsRequestDto } from '../cats/dto/cats.request.dto';
 import { LoginRequestDto } from './dto/login.request.dto';
-import { CatsService } from '../cats/cats.service';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private catsService: CatsService,
-    private authService: AuthService,
-  ) {}
+  constructor(private authService: AuthService) {}
   @ApiOperation({ summary: '회원가입' })
   @ApiResponse({
     status: 200,
