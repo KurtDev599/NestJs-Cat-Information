@@ -6,6 +6,7 @@ import {
   Req,
   UseFilters,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { HttpExceptionFilter } from '../common/http-exception.filter';
@@ -16,6 +17,7 @@ import { AuthService } from '../auth/auth.service';
 import { LoginRequestDto } from '../auth/dto/login.request.dto';
 import { JwtGuard } from '../auth/jwt/jwt.guard';
 import { CurrentUser } from '../common/decorators/user.decorator';
+import { SuccessInterceptor } from '../common/success.interceptor';
 
 @Controller('cats')
 @UseFilters(HttpExceptionFilter)
@@ -23,6 +25,7 @@ import { CurrentUser } from '../common/decorators/user.decorator';
   status: 500,
   description: 'Server Error',
 })
+@UseInterceptors(SuccessInterceptor) // Interceptor DI
 @UseGuards(JwtGuard)
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
