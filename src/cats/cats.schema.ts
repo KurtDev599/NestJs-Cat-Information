@@ -7,7 +7,7 @@ const options: SchemaOptions = {
   timestamps: true,
 };
 
-@Schema()
+@Schema(options)
 export class Cat extends Document {
   @Prop({
     required: true,
@@ -48,7 +48,7 @@ export class Cat extends Document {
   @Prop()
   imgUrl: string;
 
-  readonly readonlyData: { id: string; email: string; name: string };
+  readonly readOnlyData: { id: string; email: string; name: string };
 }
 
 export const CatSchema = SchemaFactory.createForClass(Cat);
