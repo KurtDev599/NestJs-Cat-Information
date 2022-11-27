@@ -23,33 +23,18 @@ import { CurrentUser } from '../common/decorators/user.decorator';
   status: 500,
   description: 'Server Error',
 })
+@UseGuards(JwtGuard)
 export class CatsController {
-  constructor(
-    private readonly catsService: CatsService,
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly catsService: CatsService) {}
 
   @ApiOperation({ summary: '현재 내 정보' })
-  @UseGuards(JwtGuard)
-  @Get()
-  getCurrentCat(@CurrentUser() cat) {
-    return cat.readOnlyData;
-  }
-
-  @ApiOperation({ summary: '회원가입' })
   @ApiResponse({
     status: 200,
     description: 'success',
     type: CatsResponseDto,
   })
-  @Post('signUp')
-  async singUp(@Body() body: CatsRequestDto) {
-    return await this.catsService.singUp(body);
-  }
-
-  @ApiOperation({ summary: '로그인' })
-  @Post('login')
-  async login(@Body() data: LoginRequestDto) {
-    return this.authService.jwtLogin(data);
+  @Get()
+  getCurrentCat(@CurrentUser() cat) {
+    return cat.readOnlyData;
   }
 }
