@@ -22,6 +22,7 @@ import { SuccessInterceptor } from '../common/success.interceptor';
 @UseInterceptors(SuccessInterceptor) // Interceptor DI
 export class AuthController {
   constructor(private authService: AuthService) {}
+
   @ApiOperation({ summary: '회원가입' })
   @ApiResponse({
     status: 200,
