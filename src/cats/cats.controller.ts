@@ -40,9 +40,17 @@ export class CatsController {
   }
 
   @ApiOperation({ summary: '이미지 업로드' })
+  @ApiResponse({
+    status: 200,
+    description: 'success',
+    type: CatsResponseDto,
+  })
   @UseInterceptors(FilesInterceptor('image', 10, multerOptions('cats')))
   @Post('upload')
-  async uploadImg(@UploadedFiles() files: Array<Express.Multer.File>) {
-    return 'test';
+  async uploadImg(
+    @UploadedFiles() files: Array<Express.Multer.File>,
+    @CurrentUser() cat,
+  ) {
+    return this.catsService.uploadImg(cat, files);
   }
 }
