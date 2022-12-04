@@ -35,7 +35,7 @@ export class CatsController {
     type: CatsResponseDto,
   })
   @Get('my')
-  getCurrentCat(@CurrentUser() cat) {
+  async getCurrentCat(@CurrentUser() cat) {
     return cat.readOnlyData;
   }
 
@@ -47,7 +47,7 @@ export class CatsController {
   })
   @UseInterceptors(FilesInterceptor('image', 10, multerOptions('cats')))
   @Post('upload')
-  uploadImg(
+  async uploadImg(
     @UploadedFiles() files: Array<Express.Multer.File>,
     @CurrentUser() cat,
   ) {
@@ -62,7 +62,7 @@ export class CatsController {
     isArray: true,
   })
   @Get('all')
-  getAllCat() {
+  async getAllCat() {
     return this.catsService.getAllCat();
   }
 }
