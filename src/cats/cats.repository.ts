@@ -43,4 +43,9 @@ export class CatsRepository {
 
     return newCat.readOnlyData;
   }
+
+  async findAll() {
+    const allCat = await this.catModel.find();
+    return allCat;
+  }
 }

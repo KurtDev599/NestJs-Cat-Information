@@ -45,7 +45,9 @@ export class Cat extends Document {
   })
   password: string;
 
-  @Prop()
+  @Prop({
+    default: null,
+  })
   imgUrl: string;
 
   readonly readOnlyData: {

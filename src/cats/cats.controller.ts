@@ -34,7 +34,7 @@ export class CatsController {
     description: 'success',
     type: CatsResponseDto,
   })
-  @Get()
+  @Get('my')
   getCurrentCat(@CurrentUser() cat) {
     return cat.readOnlyData;
   }
@@ -47,10 +47,22 @@ export class CatsController {
   })
   @UseInterceptors(FilesInterceptor('image', 10, multerOptions('cats')))
   @Post('upload')
-  async uploadImg(
+  uploadImg(
     @UploadedFiles() files: Array<Express.Multer.File>,
     @CurrentUser() cat,
   ) {
     return this.catsService.uploadImg(cat, files);
+  }
+
+  @ApiOperation({ summary: '모든 유저' })
+  @ApiResponse({
+    status: 200,
+    description: 'success',
+    type: CatsResponseDto,
+    isArray: true,
+  })
+  @Get('all')
+  getAllCat() {
+    return this.catsService.getAllCat();
   }
 }
