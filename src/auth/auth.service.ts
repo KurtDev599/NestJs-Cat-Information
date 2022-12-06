@@ -4,6 +4,7 @@ import { LoginRequestDto } from './dto/login.request.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { CatsRequestDto } from '../cats/dto/cats.request.dto';
+import { Cat } from '../cats/cats.schema';
 
 @Injectable()
 export class AuthService {
@@ -33,6 +34,7 @@ export class AuthService {
 
     const payload = { email: email, id: cat.id };
     return {
+      id: cat.id,
       token: this.jwtService.sign(payload),
     };
   }
@@ -56,5 +58,10 @@ export class AuthService {
     });
 
     return cat.readOnlyData;
+  }
+
+  // 탈퇴
+  async deleteUser(cat: Cat) {
+    return this.catsRepository.deleteCat(cat);
   }
 }

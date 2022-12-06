@@ -1,17 +1,25 @@
 import {
   Body,
   Controller,
+  Delete,
   Post,
   UseFilters,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CatsResponseDto } from '../cats/dto/cats.response.dto';
+import {
+  CatsLoginSuccessDto,
+  CatsResponseDto,
+} from '../cats/dto/cats.response.dto';
 import { CatsRequestDto } from '../cats/dto/cats.request.dto';
 import { LoginRequestDto } from './dto/login.request.dto';
 import { AuthService } from './auth.service';
 import { HttpExceptionFilter } from '../common/http-exception.filter';
 import { SuccessInterceptor } from '../common/success.interceptor';
+import { JwtGuard } from './jwt/jwt.guard';
+import { CurrentUser } from '../common/decorators/user.decorator';
+import { CatsDeleteUserSuccessDto } from './dto/delete.request.dto';
 
 @Controller('auth')
 @UseFilters(HttpExceptionFilter)
@@ -35,8 +43,25 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: '로그인' })
+  @ApiResponse({
+    status: 200,
+    description: 'success',
+    type: CatsLoginSuccessDto,
+  })
   @Post('login')
   async login(@Body() data: LoginRequestDto) {
     return this.authService.jwtLogin(data);
+  }
+
+  @ApiOperation({ summary: '탈퇴' })
+  @UseGuards(JwtGuard)
+  @ApiResponse({
+    status: 200,
+    description: 'success',
+    type: CatsDeleteUserSuccessDto,
+  })
+  @Delete()
+  async deleteUser(@CurrentUser() cat) {
+    return this.authService.deleteUser(cat);
   }
 }

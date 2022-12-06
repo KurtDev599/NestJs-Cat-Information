@@ -8,3 +8,11 @@ export class CatsResponseDto extends PickType(Cat, ['email', 'name'] as const) {
   })
   id: string;
 }
+
+export class CatsLoginSuccessDto {
+  @ApiProperty({
+    example: 'sadasdasduasklewkqjdlsmzxc',
+    description: 'jwt token',
+  })
+  token: string;
+}

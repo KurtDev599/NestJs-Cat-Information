@@ -56,11 +56,8 @@ export class CatsRepository {
     return allCat;
   }
 
-  // const CommentsModel = mongoose.model('comments', CommentsSchema);
-  //
-  // const result = await this.catModel
-  //   .find()
-  //   .populate('comments', CommentsModel);
-  //
-  // return result;
+  async deleteCat(cat: Cat) {
+    await this.catModel.findByIdAndDelete(cat._id);
+    return true;
+  }
 }
