@@ -13,7 +13,6 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CatsResponseDto } from './dto/cats.response.dto';
 import { JwtGuard } from '../auth/jwt/jwt.guard';
 import { CurrentUser } from '../common/decorators/user.decorator';
-import { SuccessInterceptor } from '../common/success.interceptor';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from '../common/utils/multer.options';
 
@@ -23,7 +22,6 @@ import { multerOptions } from '../common/utils/multer.options';
   status: 500,
   description: 'Server Error',
 })
-@UseInterceptors(SuccessInterceptor) // Interceptor DI
 @UseGuards(JwtGuard)
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}

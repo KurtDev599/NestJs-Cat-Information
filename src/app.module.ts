@@ -7,6 +7,8 @@ import { CatsModule } from './cats/cats.module';
 import { AuthModule } from './auth/auth.module';
 import { CommentsModule } from './comments/comments.module';
 import * as mongoose from 'mongoose';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { SuccessInterceptor } from './common/success.interceptor';
 
 @Module({
   imports: [
@@ -20,7 +22,10 @@ import * as mongoose from 'mongoose';
     CommentsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_INTERCEPTOR, useClass: SuccessInterceptor },
+  ],
 })
 export class AppModule implements NestModule {
   private readonly isDev = process.env.MODE === 'dev' ? true : false;

@@ -27,7 +27,6 @@ import { CatsDeleteUserSuccessDto } from './dto/delete.request.dto';
   status: 500,
   description: 'Server Error',
 })
-@UseInterceptors(SuccessInterceptor) // Interceptor DI
 export class AuthController {
   constructor(private authService: AuthService) {}
 
