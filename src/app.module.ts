@@ -7,8 +7,9 @@ import { CatsModule } from './cats/cats.module';
 import { AuthModule } from './auth/auth.module';
 import { CommentsModule } from './comments/comments.module';
 import * as mongoose from 'mongoose';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { SuccessInterceptor } from './common/success.interceptor';
+import { HttpExceptionFilter } from './common/http-exception.filter';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { SuccessInterceptor } from './common/success.interceptor';
   providers: [
     AppService,
     { provide: APP_INTERCEPTOR, useClass: SuccessInterceptor },
+    { provide: APP_FILTER, useClass: HttpExceptionFilter },
   ],
 })
 export class AppModule implements NestModule {

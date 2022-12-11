@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Post,
-  UseFilters,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import {
   CatsLoginSuccessDto,
@@ -15,14 +7,11 @@ import {
 import { CatsRequestDto } from '../cats/dto/cats.request.dto';
 import { LoginRequestDto } from './dto/login.request.dto';
 import { AuthService } from './auth.service';
-import { HttpExceptionFilter } from '../common/http-exception.filter';
-import { SuccessInterceptor } from '../common/success.interceptor';
 import { JwtGuard } from './jwt/jwt.guard';
 import { CurrentUser } from '../common/decorators/user.decorator';
 import { CatsDeleteUserSuccessDto } from './dto/delete.request.dto';
 
 @Controller('auth')
-@UseFilters(HttpExceptionFilter)
 @ApiResponse({
   status: 500,
   description: 'Server Error',

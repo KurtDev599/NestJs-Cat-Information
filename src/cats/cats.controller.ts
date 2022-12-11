@@ -3,12 +3,10 @@ import {
   Get,
   Post,
   UploadedFiles,
-  UseFilters,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { CatsService } from './cats.service';
-import { HttpExceptionFilter } from '../common/http-exception.filter';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CatsResponseDto } from './dto/cats.response.dto';
 import { JwtGuard } from '../auth/jwt/jwt.guard';
@@ -17,7 +15,6 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from '../common/utils/multer.options';
 
 @Controller('cats')
-@UseFilters(HttpExceptionFilter)
 @ApiResponse({
   status: 500,
   description: 'Server Error',
